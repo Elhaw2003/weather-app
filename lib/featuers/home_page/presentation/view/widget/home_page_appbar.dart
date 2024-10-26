@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:weather_app/core/utilies/app_texts.dart';
+import 'package:weather_app/featuers/search/presentation/view/search_screen.dart';
 
 import '../../../../../core/utilies/app_colors.dart';
 
@@ -19,7 +20,11 @@ class HomePageAppbar extends StatelessWidget {
     ),
       actions: [
         IconButton(
-            onPressed: (){},
+            onPressed: (){
+              Navigator.push(context, MaterialPageRoute(builder: (c){
+                return const SearchScreen();
+              }));
+            },
             icon: const Icon(
                 size: 30,
                 Icons.search,
