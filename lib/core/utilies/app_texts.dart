@@ -4,4 +4,6 @@ class AppTexts{
   static const String searchACity = " Search a City";
   static const String enterCityName = " Enter City Name";
   static const String search = " Search";
+  static const String noInterNet = "لا يوجد انترنت , تحقق من الاتصال بالانترنت";
+  static const String error = "يوجد خطأ";
 }
