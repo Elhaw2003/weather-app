@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:weather_app/core/utilies/app_colors.dart';
 import 'package:weather_app/core/utilies/app_texts.dart';
+import 'package:weather_app/featuers/home_page/presentation/controller/weather_cubit.dart';
 
 class SearchBody extends StatelessWidget {
   const SearchBody({super.key});
@@ -12,7 +14,8 @@ class SearchBody extends StatelessWidget {
         padding: const EdgeInsets.symmetric(horizontal: 15),
         child: TextFormField(
           onFieldSubmitted: (cityName){
-            print(cityName);
+            BlocProvider.of<WeatherCubit>(context).getWeatherFuncInCubit(cityName: cityName);
+            Navigator.pop(context);
           },
           decoration: InputDecoration(
             suffixIcon:  const Icon(
