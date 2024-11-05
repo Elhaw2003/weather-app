@@ -1,65 +1,81 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:weather_app/core/utilies/app_colors.dart';
+import 'package:intl/intl.dart';
+import 'package:weather_app/featuers/home_page/data/models/weather_model.dart';
+import '../../../../../core/utilies/app_colors.dart';
 
 class WeatherWidget extends StatelessWidget {
-  const WeatherWidget({super.key});
+  const WeatherWidget({super.key, required this.weatherModel});
+
+  final WeatherModel weatherModel;
 
   @override
   Widget build(BuildContext context) {
-    return const Center(
+    return Center(
       child: Padding(
-        padding: EdgeInsets.only(top: 170),
+        padding: const EdgeInsets.only(top: 170),
         child: Column(
-          // mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Text(
-              "Alexandria",
-              style: TextStyle(
+              weatherModel.cityName,
+              style: const TextStyle(
                 fontWeight: FontWeight.w800,
                 fontSize: 35,
-                color: AppColors.black
+                color: AppColors.black,
               ),
             ),
             Text(
-              "updated at : 23:46",
-              style: TextStyle(
+              "Updated at: ${convertDate(weatherModel.updatedAt)}",
+              style: const TextStyle(
                 fontWeight: FontWeight.w400,
-                fontSize: 23,
-                color: AppColors.black
+                fontSize: 18,
+                color: AppColors.black,
               ),
             ),
-            SizedBox(height: 40,),
+            const SizedBox(height: 40),
             Padding(
-              padding: EdgeInsets.symmetric(horizontal: 25),
+              padding: const EdgeInsets.symmetric(horizontal: 20),
               child: Row(
                 children: [
-                  Icon(Icons.ac_unit_rounded),
-                  Spacer(),
+                  CachedNetworkImage(
+                    imageUrl: weatherModel.image != null
+                        ? "https:${weatherModel.image}"
+                        : "https://cdn.weatherapi.com/weather/64x64/day/176.png",
+                    // Default icon URL
+                    width: 64,
+                    height: 64,
+                    placeholder: (context, url) =>
+                    const CircularProgressIndicator(color: AppColors.blue),
+                    errorWidget: (context, url, error) =>
+                    const Icon(Icons.error),
+                  ),
+                  const Spacer(),
                   Text(
-                    "17",
-                    style: TextStyle(
+                    "${weatherModel.temp}°C",
+                    style: const TextStyle(
                       fontWeight: FontWeight.w400,
                       fontSize: 30,
-                      color: AppColors.black
+                      color: AppColors.black,
                     ),
                   ),
-                  Spacer(),
+                  const Spacer(),
                   Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        "maxTemp : 17",
-                        style: TextStyle(
-                            fontWeight: FontWeight.w400,
-                            fontSize: 13,
-                            color: AppColors.black
+                        "Max: ${weatherModel.maxTemp}°C",
+                        style: const TextStyle(
+                          fontWeight: FontWeight.w400,
+                          fontSize: 13,
+                          color: AppColors.black,
                         ),
                       ),
                       Text(
-                        "minTemp : 10",
-                        style: TextStyle(
-                            fontWeight: FontWeight.w400,
-                            fontSize: 13,
-                            color: AppColors.black
+                        "Min: ${weatherModel.minTemp}°C",
+                        style: const TextStyle(
+                          fontWeight: FontWeight.w400,
+                          fontSize: 13,
+                          color: AppColors.black,
                         ),
                       ),
                     ],
@@ -67,18 +83,24 @@ class WeatherWidget extends StatelessWidget {
                 ],
               ),
             ),
-            SizedBox(height: 40,),
+            const SizedBox(height: 40),
             Text(
-              "Light Rain",
-              style: TextStyle(
+              weatherModel.weatherCondition,
+              style: const TextStyle(
                 fontWeight: FontWeight.w800,
-                fontSize: 30,
-                color: AppColors.black
+                fontSize: 25,
+                color: AppColors.black,
               ),
             ),
           ],
         ),
       ),
     );
+  }
+
+  String convertDate(String? dateString) {
+    if (dateString == null || dateString.isEmpty) return '--:--';
+    DateTime dateTime = DateTime.parse(dateString);
+    return DateFormat('kk:mm').format(dateTime);
   }
 }

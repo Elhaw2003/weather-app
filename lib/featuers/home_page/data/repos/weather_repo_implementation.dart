@@ -15,19 +15,23 @@ class WeatherRepoImplementation implements WeatherRepo {
   Future<Either<Failure, WeatherModel>> getWeather(
       {required String cityName}) async {
     try {
-      var responce = await http.get(Uri.parse(
+      var response = await http.get(Uri.parse(
           "${EndPoints.baseUrl}${EndPoints.searchForCity}?key=${EndPoints.apiKey}&q=$cityName"));
-      var body = jsonDecode(responce.body);
-      if (responce.statusCode == 200) {
-        return right(WeatherModel(
+      var body = jsonDecode(response.body);
+      if (response.statusCode == 200) {
+        return right(
+            WeatherModel(
             cityName: body["location"]["name"],
             updatedAt: body["current"]["last_updated"],
             temp: body["forecast"]["forecastday"][0]["day"]["avgtemp_c"],
             maxTemp: body["forecast"]["forecastday"][0]["day"]["maxtemp_c"],
             minTemp: body["forecast"]["forecastday"][0]["day"]["mintemp_c"],
             image: body["forecast"]["forecastday"][0]["day"]["condition"]["icon"],
-            weatherCondition: body["forecast"]["forecastday"][0]["day"]["condition"]["text"]));
-      }else{
+            weatherCondition: body["forecast"]["forecastday"][0]["day"]["condition"]["text"]),
+        );
+
+      }
+      else{
         return left(
           ApiFailure(message: body["error"]["message"])
         );
@@ -35,7 +39,9 @@ class WeatherRepoImplementation implements WeatherRepo {
     }on SocketException {
       return left(NoInternetApi(message: AppTexts.noInterNet));
     }catch (e) {
+
       return left(ApiFailure(message: AppTexts.error));
     }
+
   }
 }

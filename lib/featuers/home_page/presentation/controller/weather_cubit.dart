@@ -4,12 +4,12 @@ import 'package:weather_app/featuers/home_page/data/repos/weather_repo.dart';
 import 'package:weather_app/featuers/home_page/presentation/controller/weather_states.dart';
 
 class WeatherCubit extends Cubit<WeatherStates> {
-  WeatherCubit({ required this.weatherRepo}) : super(InitialWeatherState());
+  WeatherCubit( { required this.weatherRepo}) : super(InitialWeatherState());
 
   final WeatherRepo weatherRepo;
-  WeatherModel? weatherModel;
+ late  WeatherModel weatherModel;
 
- Future<void> getWeatherFuncInCubit({required String cityName })async{
+  getWeatherFuncInCubit({required String cityName })async{
     emit(LoadingWeatherState());
     var result = await weatherRepo.getWeather(cityName: cityName);
    return result.fold(
@@ -19,6 +19,7 @@ class WeatherCubit extends Cubit<WeatherStates> {
         (r){
               weatherModel = r;
               emit(SuccessWeatherState());
+
         }
     );
   }

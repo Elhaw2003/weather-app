@@ -2,9 +2,9 @@ class WeatherModel {
   final String cityName;
   final String updatedAt;
   final String image;
-  final String maxTemp;
-  final String minTemp;
-  final String temp;
+  final double maxTemp;
+  final double minTemp;
+  final double temp;
   final String weatherCondition;
 
   WeatherModel(

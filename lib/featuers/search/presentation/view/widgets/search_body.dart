@@ -14,7 +14,7 @@ class SearchBody extends StatelessWidget {
         padding: const EdgeInsets.symmetric(horizontal: 15),
         child: TextFormField(
           onFieldSubmitted: (cityName){
-            BlocProvider.of<WeatherCubit>(context).getWeatherFuncInCubit(cityName: cityName);
+            BlocProvider.of<WeatherCubit>(context).getWeatherFuncInCubit(cityName: cityName.trim());
             Navigator.pop(context);
           },
           decoration: InputDecoration(

@@ -6,4 +6,5 @@ class AppTexts{
   static const String search = " Search";
   static const String noInterNet = "لا يوجد انترنت , تحقق من الاتصال بالانترنت";
   static const String error = "يوجد خطأ";
+  static const String tryAgain = "Try Again";
 }
